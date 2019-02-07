@@ -1,3 +1,6 @@
+//モジュールインポートの場合。
+//import log from "./modules/module.js";
+
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 
@@ -13,6 +16,6 @@ reader.on('line', (line) => {
 
 reader.on('close', () => {
     lines.forEach((val, index) => {
-        console.log(val);
-    })
+        console.log(index, val);
+    });
 });

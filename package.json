@@ -6,10 +6,17 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "onchange": "^5.2.0"
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "onchange": "^5.2.0",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2"
   },
   "scripts": {
-    "watch": "onchange 'src/**/*.js' 'input/**/*.txt' -- npm run testRun",
-    "testRun": "cat input/input.txt | node src/index.js"
+    "watch": "onchange 'src/**/*.js' 'input/**/*.txt' -- npm run onChanged",
+    "onChanged": "npm run build && npm run testRun",
+    "build": "rollup src/index.js --file dist/index.js --format cjs",
+    "testRun": "cat input/input.txt | node dist/index.js"
   }
 }
