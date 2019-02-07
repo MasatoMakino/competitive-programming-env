@@ -1,0 +1,15 @@
+{
+  "name": "competitive-programming-env",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://MasatoMakino@github.com/MasatoMakino/competitive-programming-env.git",
+  "author": "MasatoMakino <unagiinu.g@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "onchange": "^5.2.0"
+  },
+  "scripts": {
+    "watch": "onchange 'src/**/*.js' 'input/**/*.txt' -- npm run testRun",
+    "testRun": "cat input/input.txt | node src/index.js"
+  }
+}
