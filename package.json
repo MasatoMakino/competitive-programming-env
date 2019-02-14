@@ -9,14 +9,16 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
+    "make-dir": "^2.0.0",
     "onchange": "^5.2.0",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^4.3.2"
   },
   "scripts": {
-    "watch": "onchange 'src/**/*.js' 'input/**/*.txt' -- npm run onChanged",
-    "onChanged": "npm run build && npm run testRun",
-    "build": "rollup src/index.js --file dist/index.js --format cjs",
+    "watch": "npm run watch:dist & npm run watch:rollup",
+    "watch:dist": "onchange 'dist/**/*.js' 'input/**/*.txt' -- npm run testRun",
+    "watch:rollup": "node ./task/rollup.js watch",
+    "rollup": "node ./task/rollup.js",
     "testRun": "cat input/input.txt | node dist/index.js"
   }
 }

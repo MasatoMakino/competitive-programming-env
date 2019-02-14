@@ -1,18 +1,11 @@
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
+import readDevStdIn from "./modules/readDevStdIn";
 
-var lines = []
-var reader = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
+const input = readDevStdIn();
+const tmp = input[1].split(" ").map(val => {
+  return parseInt(val);
 });
+const a = parseInt(input[0]);
+const [b, c] = tmp;
+const s = input[2];
 
-reader.on('line', (line) => {
-    lines.push(line);
-});
-
-reader.on('close', () => {
-    lines.forEach((val, index) => {
-        console.log(val);
-    })
-});
+console.log("%d %s", a + b + c, s);
