@@ -19,10 +19,9 @@
   },
   "scripts": {
     "watch": "npm run watch:dist & npm run watch:rollup",
-    "watch:dist": "onchange 'dist/**/*.js' 'input/**/*.txt' -- npm run testRun",
+    "watch:dist": "onchange 'dist/**/*.js' 'input/**/*.txt' -- npm run testAll",
     "watch:rollup": "node ./task/rollup.js watch",
     "rollup": "node ./task/rollup.js",
-    "testRun": "cat input/input.txt | node dist/index.js",
     "init": "node init.js 3",
     "testAll": "node ./task/testAll.js"
   }

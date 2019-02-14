@@ -39,7 +39,6 @@ inFiles.forEach((val, index) => {
   }
 });
 
-const total = inFiles.length;
 const errorCountString = errorCount.toString();
 const styledErrorCount =
   errorCount === 0 ? errorCountString.gray : errorCountString.red;
