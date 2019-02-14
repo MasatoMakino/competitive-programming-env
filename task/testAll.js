@@ -1,6 +1,7 @@
 "use strict";
 const fs = require("fs");
 const execSync = require("child_process").execSync;
+const spawnSync = require("child_process").spawnSync;
 const path = require("path");
 const glob = require("glob");
 const colors = require("colors");
@@ -16,22 +17,31 @@ if (inFiles.length === 0) {
 }
 
 let passCount = 0;
-let errorCount = 0;
+let failsCount = 0;
 
 inFiles.forEach((val, index) => {
-  const result = execSync("cat " + val + " | node dist/index.js").toString();
+  let resultObj;
+  try {
+    resultObj = execSync("cat " + val + " | node dist/index.js");
+  } catch (error) {
+    console.log(("ERROR  : " + path.basename(val)).bold.red);
+    console.log(error.toString().red);
+    return;
+  }
+
+  const result = resultObj.toString();
   const out = fs.readFileSync(outFiles[index], { encoding: "utf-8" });
   const isPass = result === out;
   if (isPass) {
     passCount++;
   } else {
-    errorCount++;
+    failsCount++;
   }
 
   if (isPass) {
     console.log(("PASSED : " + path.basename(val)).green);
   } else {
-    console.log(("ERROR  : " + path.basename(val)).bold.magenta);
+    console.log(("FAILS  : " + path.basename(val)).bold.magenta);
     console.log("Result : ".bold.magenta);
     console.log(result.magenta);
     console.log("Expectation : ".bold.magenta);
@@ -39,20 +49,20 @@ inFiles.forEach((val, index) => {
   }
 });
 
-const errorCountString = errorCount.toString();
-const styledErrorCount =
-  errorCount === 0 ? errorCountString.gray : errorCountString.red;
+const failsCountString = failsCount.toString();
+const styledFailsCount =
+  failsCount === 0 ? failsCountString.gray : failsCountString.red;
 
 console.log(
   "TOTAL : ",
   inFiles.length.toString().green,
   " PASSED : ",
   passCount.toString().green,
-  " ERROR : ",
-  styledErrorCount
+  " FAILS : ",
+  styledFailsCount
 );
 
-if (errorCount === 0) {
+if (failsCount === 0 && inFiles.length === passCount) {
   console.log("Passing all exam".bold.green);
 } else {
   console.log("Fails an exam".bold.magenta);
