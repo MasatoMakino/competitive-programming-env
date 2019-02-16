@@ -1,7 +1,10 @@
+/**
+ * テストディレクトリ内にある全てのテストを実行し、結果を出力する。
+ */
+
 "use strict";
 const fs = require("fs");
 const execSync = require("child_process").execSync;
-const spawnSync = require("child_process").spawnSync;
 const path = require("path");
 const glob = require("glob");
 const colors = require("colors");
@@ -18,14 +21,17 @@ if (inFiles.length === 0) {
 
 let passCount = 0;
 let failsCount = 0;
+let errorCount = 0;
 
 inFiles.forEach((val, index) => {
   let resultObj;
   try {
     resultObj = execSync("cat " + val + " | node dist/index.js");
   } catch (error) {
+    errorCount++;
     console.log(("ERROR  : " + path.basename(val)).bold.red);
-    console.log(error.toString().red);
+    console.log();
+    // console.log(error.toString().red);
     return;
   }
 
@@ -59,7 +65,9 @@ console.log(
   " PASSED : ",
   passCount.toString().green,
   " FAILS : ",
-  styledFailsCount
+  styledFailsCount,
+  " ERROR : ",
+  errorCount.toString().red
 );
 
 if (failsCount === 0 && inFiles.length === passCount) {
