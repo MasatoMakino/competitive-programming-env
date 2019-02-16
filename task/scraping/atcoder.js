@@ -32,6 +32,7 @@ module.exports = class AtCoderScraper {
     });
 
     if (!isLogin) {
+      console.log("logging in...");
       await this.page.type('input[id="username"]', id);
       await this.page.type('input[id="password"]', pass);
       //clickナビゲーションはawaitしない。
@@ -40,7 +41,7 @@ module.exports = class AtCoderScraper {
         waitUntil: "domcontentloaded"
       });
     }
-    console.log("login!");
+    console.log("login");
 
     return;
   }
