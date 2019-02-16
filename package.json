@@ -5,6 +5,9 @@
   "repository": "https://MasatoMakino@github.com/MasatoMakino/competitive-programming-env.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^1.12.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
@@ -23,6 +26,7 @@
     "watch:rollup": "node ./task/rollup.js watch",
     "rollup": "node ./task/rollup.js",
     "init": "node init.js 3",
+    "initWithURL": "node init.js 'https://atcoder.jp/contests/abs/tasks/abc086_a'",
     "testAll": "node ./task/testAll.js"
   }
 }
