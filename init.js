@@ -3,8 +3,9 @@ const makeDir = require("make-dir");
 const fs = require("fs");
 const rimraf = require("rimraf");
 const testConfig = require("./task/testConfig");
+const AtCoderModule = require("./task/scraping/atcoder");
 
-const option = process.argv[2] | 1;
+let option = process.argv[2] || 1;
 
 const initWithNumber = opt => {
   const num = parseInt(opt);
@@ -32,7 +33,8 @@ const initWithNumber = opt => {
   }
 };
 
-const initWithURL = opt => {
+async function initWithURL(opt) {
+  console.log(opt);
   if (opt == null) {
     return;
   }
@@ -40,7 +42,28 @@ const initWithURL = opt => {
   if (!isNaN(num)) {
     return;
   }
-};
+
+  const atCoder = new AtCoderModule();
+  await atCoder.login();
+  const tests = await atCoder.getTest(opt);
+  atCoder.browser.close();
+
+  makeDir.sync(testConfig.testDir);
+  const n = tests.length / 2;
+  for (let i = 0; i < n; i++) {
+    const padNum = i.toString().padStart(4, "0");
+    fs.writeFileSync(
+      testConfig.testDir + testConfig.inName + padNum + ".txt",
+      tests[i * 2]
+    );
+    fs.writeFileSync(
+      testConfig.testDir + testConfig.outName + padNum + ".txt",
+      tests[i * 2 + 1]
+    );
+  }
+
+  return;
+}
 
 initWithNumber(option);
 initWithURL(option);
