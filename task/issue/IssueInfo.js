@@ -1,9 +1,13 @@
 "use strict";
+const path = require("path");
 const URL = require("url").URL;
 const makeDir = require("make-dir");
 const fs = require("fs");
 const colors = require("colors");
 const IssueTypes = require("./IssueTypes");
+const datefns = require("date-fns");
+
+const JSON_PATH = "./issue_info.json";
 
 /**
  * 課題の情報を保存、読み込みを行うモジュールです。
@@ -53,17 +57,28 @@ module.exports = {
       url: url,
       issueID: issue,
       contestID: contestID,
-      initDate: new Date()
+      initDate: datefns.format(new Date(), "YYYYMMDD_HHmmss")
     };
   },
   /**
    * JSONオブジェクトをファイルに保存する。
    * @param {JSON} info
    */
-  save(info) {},
+  save(info) {
+    const filePath = path.resolve(JSON_PATH);
+    fs.writeFileSync(filePath, JSON.stringify(info));
+  },
   /**
    * ファイルからjsonオブジェクトを復元する。
-   * @param {string} path
+   * @param {string} [filePath]
    */
-  load(path) {}
+  load(filePath) {
+    let resolvedPath;
+    if (filePath == null || filePath === "") {
+      resolvedPath = path.resolve(JSON_PATH);
+    } else {
+      resolvedPath = path.resolve(filePath);
+    }
+    return require(resolvedPath);
+  }
 };

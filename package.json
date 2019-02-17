@@ -6,6 +6,7 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "date-fns": "^1.30.1",
     "puppeteer": "^1.12.2"
   },
   "devDependencies": {
@@ -26,7 +27,9 @@
     "watch:rollup": "node ./task/rollup.js watch",
     "rollup": "node ./task/rollup.js",
     "init": "node init.js 3",
-    "initWithURL": "node init.js 'https://atcoder.jp/contests/abs/tasks/abc086_a'",
-    "testAll": "node ./task/testAll.js"
+    "initWithURL": "node init.js https://atcoder.jp/contests/abs/tasks/abc086_a",
+    "initWithPaiza": "node init.js https://paiza.jp/career/challenges/75/retry",
+    "testAll": "node ./task/testAll.js",
+    "getInfo": "node ./task/issue/IssueTest.js"
   }
 }

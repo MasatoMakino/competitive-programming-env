@@ -12,3 +12,7 @@ const paiza1 = info.get("https://paiza.jp/career/challenges/293/retry");
 console.log(atcoder1);
 console.log(atcoder2);
 console.log(paiza1);
+
+info.save(atcoder1);
+const loaded = info.load();
+console.log(loaded);
