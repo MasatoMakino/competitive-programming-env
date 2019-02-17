@@ -11,31 +11,16 @@ let option = process.argv[2] || 1;
 const initWithNumber = opt => {
   const num = parseInt(opt);
   if (isNaN(num)) {
+    console.log("NaN");
     return;
   }
-
   //テンプレート上書き
 
-  //既存のテストケース削除
-  rimraf.sync(testConfig.testDir);
-
-  //空のテストケース作成
-  makeDir.sync(testConfig.testDir);
-  for (let i = 0; i < num; i++) {
-    const padNum = i.toString().padStart(4, "0");
-    fs.writeFileSync(
-      testConfig.testDir + testConfig.inName + padNum + ".txt",
-      ""
-    );
-    fs.writeFileSync(
-      testConfig.testDir + testConfig.outName + padNum + ".txt",
-      ""
-    );
-  }
+  const tests = new Array(num * 2).fill("");
+  writeTests(tests);
 };
 
 async function initWithURL(opt) {
-  console.log(opt);
   if (opt == null) {
     return;
   }
@@ -49,12 +34,10 @@ async function initWithURL(opt) {
   const tests = await atCoder.getTest(opt);
   atCoder.browser.close();
 
-  makeDir.sync(testConfig.testDir);
   if (tests.length === 0) {
     console.log("テストケースの取得に失敗しました。".bold.red);
     return;
   }
-
   if (tests.length % 2 !== 0) {
     console.log(
       "取得されたテストの入出力数が合致していません。取得に失敗した可能性があります。"
@@ -62,6 +45,19 @@ async function initWithURL(opt) {
     );
   }
 
+  writeTests(tests);
+  return;
+}
+
+/**
+ * 配列分のテストをファイル書き込み
+ * @param {Array}} tests in,outの順で並んだテストケースの配列。
+ */
+const writeTests = tests => {
+  //既存のテストケース削除
+  rimraf.sync(testConfig.testDir);
+  //テストケース作成
+  makeDir.sync(testConfig.testDir);
   const n = tests.length / 2;
   for (let i = 0; i < n; i++) {
     const padNum = i.toString().padStart(4, "0");
@@ -74,9 +70,7 @@ async function initWithURL(opt) {
       tests[i * 2 + 1]
     );
   }
-
-  return;
-}
+};
 
 initWithNumber(option);
 initWithURL(option);
