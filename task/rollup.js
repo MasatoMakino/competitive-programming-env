@@ -1,3 +1,4 @@
+"use strict";
 const path = require("path");
 const rollup = require("rollup");
 const babel = require("rollup-plugin-babel");
