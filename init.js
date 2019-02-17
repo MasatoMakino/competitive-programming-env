@@ -4,6 +4,7 @@ const fs = require("fs");
 const rimraf = require("rimraf");
 const testConfig = require("./task/testConfig");
 const AtCoderModule = require("./task/scraping/atcoder");
+const colors = require("colors");
 
 let option = process.argv[2] || 1;
 
@@ -49,6 +50,18 @@ async function initWithURL(opt) {
   atCoder.browser.close();
 
   makeDir.sync(testConfig.testDir);
+  if (tests.length === 0) {
+    console.log("テストケースの取得に失敗しました。".bold.red);
+    return;
+  }
+
+  if (tests.length % 2 !== 0) {
+    console.log(
+      "取得されたテストの入出力数が合致していません。取得に失敗した可能性があります。"
+        .bold.red
+    );
+  }
+
   const n = tests.length / 2;
   for (let i = 0; i < n; i++) {
     const padNum = i.toString().padStart(4, "0");
