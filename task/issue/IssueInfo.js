@@ -7,13 +7,16 @@ const colors = require("colors");
 const IssueTypes = require("./IssueTypes");
 const datefns = require("date-fns");
 
-const JSON_PATH = "./issue_info.json";
-
 /**
  * 課題の情報を保存、読み込みを行うモジュールです。
  * どのコンテストのどの課題を実行中かを記録します。
  */
 module.exports = {
+  JSON_NAME: "issue_info.json",
+  JSON_PATH() {
+    return "./" + this.JSON_NAME;
+  },
+
   /**
    * urlから課題情報を保存したjsonオブジェクトを生成する。
    * @param {string} url
@@ -65,7 +68,7 @@ module.exports = {
    * @param {JSON} info
    */
   save(info) {
-    const filePath = path.resolve(JSON_PATH);
+    const filePath = path.resolve(this.JSON_PATH());
     fs.writeFileSync(filePath, JSON.stringify(info));
   },
   /**
@@ -75,7 +78,7 @@ module.exports = {
   load(filePath) {
     let resolvedPath;
     if (filePath == null || filePath === "") {
-      resolvedPath = path.resolve(JSON_PATH);
+      resolvedPath = path.resolve(this.JSON_PATH());
     } else {
       resolvedPath = path.resolve(filePath);
     }
