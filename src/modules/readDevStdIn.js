@@ -1,6 +1,6 @@
 /**
  * 標準入力を受け取り行単位の配列にして返す処理。
- * AtCoder用。
+ * 同期処理。
  */
 function readDevStdIn() {
   const input = require("fs")
