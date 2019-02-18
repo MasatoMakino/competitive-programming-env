@@ -3,7 +3,9 @@ const makeDir = require("make-dir");
 const fs = require("fs");
 const rimraf = require("rimraf");
 const testConfig = require("./task/testConfig");
-const AtCoderModule = require("./task/scraping/atcoder");
+const IssueInfo = require("./task/issue/IssueInfo");
+const getScraper = require("./task/scraping/getScraper");
+const archiver = require("./task/archive/IssueArchiver");
 const colors = require("colors");
 
 let option = process.argv[2] || 1;
@@ -11,11 +13,11 @@ let option = process.argv[2] || 1;
 const initWithNumber = opt => {
   const num = parseInt(opt);
   if (isNaN(num)) {
-    console.log("NaN");
     return;
   }
-  //テンプレート上書き
+  console.log("init empty test case ...");
 
+  overrideIndex();
   const tests = new Array(num * 2).fill("");
   writeTests(tests);
 };
@@ -29,10 +31,11 @@ async function initWithURL(opt) {
     return;
   }
 
-  const atCoder = new AtCoderModule();
-  await atCoder.login();
-  const tests = await atCoder.getTest(opt);
-  atCoder.browser.close();
+  const info = IssueInfo.get(opt);
+  const scraper = getScraper(info);
+  await scraper.login();
+  const tests = await scraper.getTest(opt);
+  scraper.browser.close();
 
   if (tests.length === 0) {
     console.log("テストケースの取得に失敗しました。".bold.red);
@@ -45,9 +48,22 @@ async function initWithURL(opt) {
     );
   }
 
+  //テスト読み込みに成功したらバックアップを作成。
+  archiver.archive();
+
+  //上書き処理
+  overrideIndex();
+  IssueInfo.save(info);
   writeTests(tests);
+
+  console.log(("Complete : init Test case form " + opt).bold.green);
   return;
 }
+
+/**
+ * index.jsファイルを上書きする
+ */
+const overrideIndex = () => {};
 
 /**
  * 配列分のテストをファイル書き込み
