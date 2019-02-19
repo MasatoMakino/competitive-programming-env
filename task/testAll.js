@@ -72,6 +72,9 @@ console.log(
 
 if (failsCount === 0 && inFiles.length === passCount) {
   console.log("Passing all exam".bold.green);
+  fs.readFile("./dist/index.js", "utf-8", (err, data) => {
+    require("clipboardy").write(data);
+  });
 } else {
   console.log("Fails an exam".bold.magenta);
 }
