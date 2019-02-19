@@ -1,5 +1,5 @@
 import readDevStdIn from "./modules/readDevStdIn";
 
-const input = readDevStdIn();
+const inputs = readDevStdIn();
 
-console.log(input);
+console.log(inputs[0]);
