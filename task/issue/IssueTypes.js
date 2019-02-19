@@ -1,4 +1,5 @@
 module.exports = Object.freeze({
   AT_CODER: "atcoder",
-  PAIZA: "paiza"
+  PAIZA: "paiza",
+  UNKNOWN: "unknown"
 });

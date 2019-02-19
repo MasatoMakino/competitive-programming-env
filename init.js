@@ -17,6 +17,11 @@ const initWithNumber = opt => {
   }
   console.log("init empty test case ...");
 
+  //バックアップを作成。
+  archiver.archive();
+
+  const info = IssueInfo.get();
+  IssueInfo.save(info);
   overrideIndex();
   const tests = new Array(num * 2).fill("");
   writeTests(tests);

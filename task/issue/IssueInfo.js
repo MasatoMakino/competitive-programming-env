@@ -22,6 +22,9 @@ module.exports = {
    * @param {string} url
    */
   get(url) {
+    if (url == null || url === "") {
+      return this.getEmptyInfo();
+    }
     const parsed = new URL(url);
 
     //タイプ判定
@@ -60,9 +63,31 @@ module.exports = {
       url: url,
       issueID: issue,
       contestID: contestID,
-      initDate: datefns.format(new Date(), "YYYYMMDD_HHmmss")
+      initDate: this.getDate()
     };
   },
+
+  /**
+   * URL未指定の場合のjsonオブジェクトを生成する。
+   */
+  getEmptyInfo() {
+    const dateString = this.getDate();
+    return {
+      type: IssueTypes.UNKNOWN,
+      url: "",
+      issueID: dateString,
+      contestID: "",
+      initDate: dateString
+    };
+  },
+
+  /**
+   * JSON用のフォーマット済みDateを取得する。
+   */
+  getDate() {
+    return datefns.format(new Date(), "YYYYMMDD_HHmmss");
+  },
+
   /**
    * JSONオブジェクトをファイルに保存する。
    * @param {JSON} info
