@@ -28,11 +28,6 @@
     "watch:rollup": "node ./task/rollup.js watch",
     "rollup": "node ./task/rollup.js",
     "init": "node init.js 3",
-    "initWithURL": "node init.js https://atcoder.jp/contests/abs/tasks/abc086_a",
-    "initWithPaiza": "node init.js https://paiza.jp/career/challenges/75/retry",
-    "testAll": "node ./task/testAll.js",
-    "getInfo": "node ./task/issue/IssueTest.js",
-    "archiveTest": "node ./task/archive/ArchiveTest.js",
-    "paizaTest": "node ./task/scraping/scrapingtest.js"
+    "testAll": "node ./task/testAll.js"
   }
 }

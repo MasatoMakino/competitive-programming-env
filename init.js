@@ -40,7 +40,7 @@ async function initWithURL(opt) {
   const scraper = getScraper(info);
   await scraper.login();
   const tests = await scraper.getTest(opt);
-  scraper.browser.close();
+  await scraper.browser.close();
 
   if (tests.length === 0) {
     console.log("テストケースの取得に失敗しました。".bold.red);
