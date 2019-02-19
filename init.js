@@ -68,7 +68,9 @@ async function initWithURL(opt) {
 /**
  * index.jsファイルを上書きする
  */
-const overrideIndex = () => {};
+const overrideIndex = () => {
+  fs.copyFileSync("./src/template.js", "./src/index.js");
+};
 
 /**
  * 配列分のテストをファイル書き込み
