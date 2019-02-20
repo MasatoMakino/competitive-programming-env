@@ -1,18 +1,20 @@
 const paiza = require("./paiza");
+const atcoder = require("./atcoder");
 
-async function test() {
-  let paizaLoader = new paiza();
-  await paizaLoader.login();
-  const tests = await paizaLoader.getTest(
-    "https://paiza.jp/career/challenges/293/retry"
+async function testModule(loader, url) {
+  await loader.login();
+  const tests = await loader.getTest(url);
+  await loader.browser.close();
+}
+async function testPaiza() {
+  await testModule(new paiza(), "https://paiza.jp/career/challenges/293/retry");
+}
+async function testAtCoder() {
+  await testModule(
+    new atcoder(),
+    "https://atcoder.jp/contests/abs/tasks/abc086_a"
   );
 }
-//test();
 
-async function jumpto() {
-  let paizaLoader = new paiza();
-  await paizaLoader.login();
-  const tests = await paizaLoader.getTest(
-    "https://paiza.jp/career/challenges/293/retry"
-  );
-}
+//testPaiza();
+testAtCoder();

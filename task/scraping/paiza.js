@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const URL = require("url").URL;
+const ScraperUtil = require("./ScraperUtil");
 
 module.exports = class PaizaScraper {
   constructor() {
@@ -19,21 +20,28 @@ module.exports = class PaizaScraper {
       pass = pass || config.paiza.pass;
     }
 
-    this.browser = await puppeteer.launch({
-      headless: false
-    });
-    this.page = await this.browser.newPage();
+    const label = "boot browser";
+    console.time(label);
+    this.browser = await ScraperUtil.getBrowser();
+    console.timeEnd(label);
+    this.page = await ScraperUtil.getPage(this.browser);
+
     await this.page.goto("https://paiza.jp/user_sessions/new_cbox", {
-      waitUntil: "networkidle2"
+      waitUntil: "domcontentloaded"
     });
 
     console.log("logging in...");
+
     await this.page.type('input[id="user_email"]', id);
     await this.page.type('input[id="user_password"]', pass);
-    this.page.click("input.btn_login");
-    await this.page.waitForNavigation({
-      waitUntil: "domcontentloaded"
-    });
+
+    await Promise.all([
+      this.page.waitForNavigation({
+        waitUntil: "domcontentloaded"
+      }),
+      this.page.click("input.btn_login")
+    ]);
+
     console.log("login");
 
     return;
@@ -69,7 +77,6 @@ module.exports = class PaizaScraper {
     const type = pathName.split("/").pop();
 
     //再挑戦タイプのページは単一のリファラで繊維可能。
-    console.log("issue type : " + type);
     if (type === "retry") {
       await this.page.goto(url, {
         waitUntil: "domcontentloaded",
@@ -91,10 +98,13 @@ module.exports = class PaizaScraper {
       const linkButtons = await this.page.$$(selector);
       if (linkButtons.length === 0) continue;
 
-      this.page.click(selector);
-      await this.page.waitForNavigation({
-        waitUntil: "domcontentloaded"
-      });
+      await Promise.all([
+        this.page.waitForNavigation({
+          waitUntil: "domcontentloaded"
+        }),
+        this.page.click(selector)
+      ]);
+
       return;
     }
   }

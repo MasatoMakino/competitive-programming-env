@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const ScraperUtil = require("./ScraperUtil");
 
 module.exports = class AtCoderScraper {
   constructor() {
@@ -18,8 +19,9 @@ module.exports = class AtCoderScraper {
       pass = pass || config.atcoder.pass;
     }
 
-    this.browser = await puppeteer.launch();
-    this.page = await this.browser.newPage();
+    this.browser = await ScraperUtil.getBrowser();
+    this.page = await ScraperUtil.getPage(this.browser);
+
     await this.page.goto("https://atcoder.jp/login", {
       waitUntil: "networkidle2"
     });
