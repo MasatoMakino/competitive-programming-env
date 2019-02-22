@@ -118,6 +118,6 @@ fabric.properties
 
 .idea
 test
-cret.json
+auth.json
 issue_info.json
 archive
