@@ -1,6 +1,6 @@
 {
   "name": "competitive-programming-env",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/competitive-programming-env.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
@@ -12,6 +12,7 @@
   "scripts": {
     "watch": "ctw -w",
     "testAll": "ctw -t",
-    "init": "ctw -e 3"
+    "init": "ctw --initFromClipboard",
+    "add": "ctw -a"
   }
 }
