@@ -1,6 +1,6 @@
 # competitive-programming-env
 
-> 競技プログラミング用開発環境です。
+> [node-competitive-programming-watcher](https://github.com/MasatoMakino/node-competitive-programming-watcher "node-competitive-programming-watcher")をベースとした競技プログラミング用開発環境です。
 
 ## Getting Started
 
@@ -25,6 +25,12 @@
 }
 ```
 
+❗
+この認証情報はあなたのIDとパスワードです。
+
+❌
+`./auth.json`ファイルを外部に公開してはいけません。
+
 ### yarn install
 
 次に、ターミナルを開き、ファイルを展開したディレクトリに移動します。
@@ -47,7 +53,7 @@ npm scriptsのinitコマンドを実行すると、testディレクトリとsrc�
 
 ## npm scripts
 
-+ "watch" ソースファイルの更新に合わせて、自動でテストを繰り返します。
-+ "testAll" テストを手動で実行します。
-+ "init": クリップボードのURLから、テストケースを取得し、`src/index.js`を初期化します。
-+ "add": 空のテストケースを作成し、src/index.js`を初期化します。リモートから取得できない場合のためのコマンドです。
++ "watch" : ソースファイルの更新に合わせて、自動でテストを繰り返します。
++ "testAll" : テストを手動で実行します。
++ "init" : クリップボードのURLから、テストケースを取得し、`src/index.js`を初期化します。
++ "add" : 空のテストケースを作成し、`src/index.js`を初期化します。リモートから取得できない場合のためのコマンドです。
